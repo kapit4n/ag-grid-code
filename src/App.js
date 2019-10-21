@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 
 import { AgGridReact } from "ag-grid-react";
+import MoodEditor from "./moodEditor.jsx";
+import MoodRenderer from "./moodRenderer.jsx";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
@@ -18,6 +20,13 @@ function App() {
     {
       headerName: "Price",
       field: "price"
+    },
+    {
+      headerName: "Mood",
+      field: "mood",
+      cellEditor: "moodEditor",
+      cellRenderer: "moodRenderer",
+      editable: true
     }
   ]);
 
@@ -25,19 +34,27 @@ function App() {
     {
       make: "Toyota",
       model: "Celica",
-      price: 35000
+      price: 35000,
+      mood: "Happy"
     },
     {
       make: "Ford",
       model: "Mondeo",
-      price: 32000
+      price: 32000,
+      mood: ""
     },
     {
       make: "Porsche",
       model: "Boxter",
-      price: 72000
+      price: 72000,
+      mood: ""
     }
   ]);
+
+  const [frameworkComponents] = React.useState({
+    moodRenderer: MoodRenderer,
+    moodEditor: MoodEditor
+  });
 
   return (
     <div
@@ -47,7 +64,11 @@ function App() {
         width: "800px"
       }}
     >
-      <AgGridReact columnDefs={columnDefs} rowData={rowData}></AgGridReact>
+      <AgGridReact
+        columnDefs={columnDefs}
+        rowData={rowData}
+        frameworkComponents={frameworkComponents}
+      ></AgGridReact>
     </div>
   );
 }
